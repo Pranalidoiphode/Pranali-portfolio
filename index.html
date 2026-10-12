@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth scroll-pt-20">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pranali Doiphode | Backend Developer</title>
+    <meta name="description" content="Pranali Doiphode is a Python and Django backend developer. FinTech is the domain she has shipped in: trading platforms, payments, and high-volume APIs.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['"Instrument Serif"', 'Georgia', 'serif'],
+                        sans: ['Outfit', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                    },
+                    colors: {
+                        ink: '#090c0b',
+                        panel: '#121816',
+                        line: '#24302c',
+                        gold: '#5eead4',
+                        cream: '#eef6f3',
+                        mute: '#93a8a1',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #090c0b; }
+        ::selection { background: #5eead4; color: #071210; }
+
+        .glow {
+            position: absolute;
+            width: 42rem;
+            height: 42rem;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(94, 234, 212, 0.18), transparent 68%);
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        .glow-violet {
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.2), transparent 68%);
+        }
+
+        .grid-fade {
+            background-image:
+                linear-gradient(to right, rgba(238, 246, 243, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(238, 246, 243, 0.04) 1px, transparent 1px);
+            background-size: 72px 72px;
+            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+        }
+
+        .grad-text {
+            background: linear-gradient(110deg, #5eead4 10%, #a78bfa 90%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .grad-fill {
+            background: linear-gradient(110deg, #2dd4bf, #818cf8);
+            color: #071210;
+        }
+        .grad-fill:hover { filter: brightness(1.08); }
+        .grad-line {
+            height: 2px;
+            background: linear-gradient(90deg, #5eead4, #a78bfa, transparent);
+        }
+
+        .tab {
+            position: relative;
+            color: #93a8a1;
+            background: transparent;
+            border: 1px solid transparent;
+            border-bottom: none;
+            padding: 0.7rem 1rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+        }
+        .tab.is-active {
+            color: #eef6f3;
+            background: #121816;
+            border-color: #24302c;
+        }
+        .tab.is-active::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #5eead4, #a78bfa);
+        }
+        .tab:focus-visible {
+            outline: 2px solid #5eead4;
+            outline-offset: 2px;
+        }
+
+        .marquee { overflow: hidden; }
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: ticker 32s linear infinite;
+        }
+        @keyframes ticker {
+            to { transform: translateX(-50%); }
+        }
+
+        .pulse-dot {
+            animation: blink 1.6s ease-in-out infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.35; }
+        }
+
+        .flow-bead {
+            animation: flow 3.6s ease-in-out infinite;
+        }
+        @keyframes flow {
+            0% { top: 8%; opacity: 0; }
+            12% { opacity: 1; }
+            88% { opacity: 1; }
+            100% { top: 92%; opacity: 0; }
+        }
+
+        .card-lift {
+            transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+        }
+        .card-lift:hover {
+            transform: translateY(-4px);
+            border-color: rgba(94, 234, 212, 0.55);
+        }
+
+        .verb {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 3.1rem;
+            padding: 0.28rem 0.45rem;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            color: #071210;
+            background: #5eead4;
+        }
+        .verb-post { background: #a78bfa; }
+        .url-bar {
+            flex: 1;
+            min-width: 0;
+            border: 1px solid #24302c;
+            background: #090c0b;
+            padding: 0.45rem 0.7rem;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            font-size: 12px;
+            color: #eef6f3;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .tree-item, .req {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            width: 100%;
+            text-align: left;
+            color: #93a8a1;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            font-size: 12px;
+        }
+        .tree-item { padding: 0.4rem 0.85rem; }
+        .req { padding: 0.7rem 0.9rem; }
+        .tree-item.is-active, .req.is-active {
+            color: #eef6f3;
+            background: rgba(94, 234, 212, 0.08);
+        }
+        .req.is-active::before { display: none; }
+        .req.is-active { box-shadow: inset 2px 0 0 #5eead4; }
+        .tree-item:focus-visible, .req:focus-visible {
+            outline: 2px solid #5eead4;
+            outline-offset: -2px;
+        }
+        .code-view {
+            display: grid;
+            grid-template-columns: 1.6rem 1fr;
+            gap: 0.85rem;
+            background: #090c0b;
+            border: 1px solid #24302c;
+            padding: 0.85rem 1rem;
+            overflow-x: auto;
+        }
+        .code-view pre {
+            margin: 0;
+            font-family: "JetBrains Mono", ui-monospace, monospace;
+            font-size: 12.5px;
+            line-height: 1.75;
+        }
+        .gutter {
+            color: #5d736c;
+            text-align: right;
+            user-select: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track, .pulse-dot, .flow-bead { animation: none; }
+            .card-lift:hover { transform: none; }
+        }
+    </style>
+</head>
+<body class="bg-ink text-cream antialiased font-sans">
+
+    <header class="fixed top-0 inset-x-0 z-50 border-b border-line/80 bg-ink/80 backdrop-blur-xl">
+        <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
+            <a href="#top" class="flex items-center gap-3">
+                <span class="w-9 h-9 grid place-items-center border border-gold/70 text-gold font-mono text-[11px] tracking-widest">PD</span>
+                <span class="font-serif text-xl leading-none">Pranali Doiphode</span>
+            </a>
+            <nav class="hidden md:flex items-center gap-8 text-sm text-mute">
+                <a href="#about" class="hover:text-cream transition-colors">About</a>
+                <a href="#stack" class="hover:text-cream transition-colors">Stack</a>
+                <a href="#experience" class="hover:text-cream transition-colors">Experience</a>
+                <a href="#work" class="hover:text-cream transition-colors">Work</a>
+                <a href="#contact" class="hover:text-cream transition-colors">Contact</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 text-sm border border-gold/50 text-gold hover:bg-gold hover:text-ink transition-colors">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </a>
+                <button id="menuBtn" class="md:hidden w-10 h-10 border border-line text-cream" aria-expanded="false" aria-label="Open menu">
+                    <i id="menuIcon" class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobileNav" class="hidden md:hidden border-t border-line bg-ink">
+            <nav class="px-5 py-4 flex flex-col gap-3 text-sm">
+                <a href="#about" class="py-2 text-cream/90 hover:text-gold">About</a>
+                <a href="#stack" class="py-2 text-cream/90 hover:text-gold">Stack</a>
+                <a href="#experience" class="py-2 text-cream/90 hover:text-gold">Experience</a>
+                <a href="#work" class="py-2 text-cream/90 hover:text-gold">Work</a>
+                <a href="#contact" class="py-2 text-cream/90 hover:text-gold">Contact</a>
+                <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="py-2 text-gold">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="top">
+        <section class="relative pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+            <div class="glow -top-40 -left-24"></div>
+            <div class="glow glow-violet top-10 right-0 opacity-80"></div>
+            <div class="absolute inset-0 grid-fade"></div>
+
+            <div class="relative max-w-6xl mx-auto px-5 grid lg:grid-cols-12 gap-12 items-end">
+                <div class="lg:col-span-7">
+                    <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold mb-6">Python · Django · Backend</p>
+                    <h1 class="font-serif text-[3.4rem] sm:text-7xl lg:text-[5.4rem] leading-[0.92] tracking-tight">
+                        I build the<br>
+                        <span class="italic grad-text">backend.</span>
+                    </h1>
+                    <p class="mt-6 max-w-xl text-mute text-base sm:text-lg leading-relaxed">
+                        Two years shipping Python and Django services: REST APIs, Redis, and databases that have to stay fast when the traffic does not. That work has lived inside fintech — trading platforms, payments, and live market data. The domain is my background. The craft is backend engineering.
+                    </p>
+                    <div class="mt-8 flex flex-wrap gap-3">
+                        <a href="#work" class="grad-fill inline-flex items-center gap-2 px-5 py-3 font-medium transition-colors">
+                            See the work <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                        <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 border border-line hover:border-gold/60 transition-colors">
+                            <i class="fa-brands fa-github text-gold"></i> github.com/Pranalidoiphode
+                        </a>
+                        <a href="https://linkedin.com/in/pranali-doiphode" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3 border border-line hover:border-gold/60 transition-colors">
+                            <i class="fa-brands fa-linkedin text-gold"></i> LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 space-y-4">
+                    <div class="border border-line bg-panel shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+                        <div class="grad-line"></div>
+                        <div class="flex items-center justify-between px-4 py-3 border-b border-line">
+                            <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-mute">Run and debug</span>
+                            <span class="inline-flex items-center gap-2 font-mono text-[11px] text-gold">
+                                <span class="pulse-dot inline-block w-1.5 h-1.5 rounded-full bg-gold"></span>
+                                listening
+                            </span>
+                        </div>
+                        <ul class="divide-y divide-line font-mono text-sm">
+                            <li class="flex items-center justify-between gap-3 px-4 py-3">
+                                <span class="flex items-center gap-3"><i class="fa-solid fa-play text-[10px] text-gold"></i> Django</span>
+                                <span class="text-[11px] text-mute">API</span>
+                            </li>
+                            <li class="flex items-center justify-between gap-3 px-4 py-3">
+                                <span class="flex items-center gap-3"><i class="fa-solid fa-play text-[10px] text-gold"></i> Redis</span>
+                                <span class="text-[11px] text-mute">cache</span>
+                            </li>
+                            <li class="flex items-center justify-between gap-3 px-4 py-3">
+                                <span class="flex items-center gap-3"><i class="fa-solid fa-play text-[10px] text-gold"></i> SQL · Mongo</span>
+                                <span class="text-[11px] text-mute">data</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="border border-line bg-panel shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
+                        <div class="grad-line"></div>
+                        <div class="flex items-center gap-2 px-4 py-2.5 border-b border-line">
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#c45c4a]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#e7c15a]"></span>
+                            <span class="w-2.5 h-2.5 rounded-full bg-[#7dcea0]"></span>
+                            <span class="ml-1 font-mono text-[11px] text-mute">collection · profile</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-4 py-3 border-b border-line">
+                            <span class="verb">GET</span>
+                            <span class="url-bar">localhost:8000/whoami</span>
+                            <span class="shrink-0 font-mono text-[11px] text-gold">200 OK</span>
+                        </div>
+                        <p class="px-4 py-2 border-b border-line font-mono text-[11px] text-mute">Body · application/json</p>
+                        <pre class="p-5 font-mono text-[12.5px] leading-relaxed text-mute overflow-x-auto">{
+  <span class="text-cream">"name"</span>: <span class="text-[#c4b5fd]">"Pranali Doiphode"</span>,
+  <span class="text-cream">"role"</span>: <span class="text-[#c4b5fd]">"Backend Developer"</span>,
+  <span class="text-cream">"background"</span>: <span class="text-[#c4b5fd]">"FinTech"</span>,
+  <span class="text-cream">"stack"</span>: [
+    <span class="text-[#c4b5fd]">"Python"</span>,
+    <span class="text-[#c4b5fd]">"Django REST"</span>,
+    <span class="text-[#c4b5fd]">"Redis"</span>,
+    <span class="text-[#c4b5fd]">"SQL &amp; MongoDB"</span>
+  ],
+  <span class="text-cream">"status"</span>: <span class="text-[#5eead4]">"shipping"</span>
+}</pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="border-y border-line bg-panel/40">
+            <div class="marquee py-4">
+                <div class="marquee-track font-mono text-xs tracking-[0.22em] uppercase text-mute">
+                    <span class="px-6">Python</span><span class="text-gold">/</span>
+                    <span class="px-6">Django</span><span class="text-gold">/</span>
+                    <span class="px-6">Django REST</span><span class="text-gold">/</span>
+                    <span class="px-6">Redis</span><span class="text-gold">/</span>
+                    <span class="px-6">MongoDB</span><span class="text-gold">/</span>
+                    <span class="px-6">MySQL</span><span class="text-gold">/</span>
+                    <span class="px-6">Celery</span><span class="text-gold">/</span>
+                    <span class="px-6">JWT</span><span class="text-gold">/</span>
+                    <span class="px-6">OAuth</span><span class="text-gold">/</span>
+                    <span class="px-6">Stripe</span><span class="text-gold">/</span>
+                    <span class="px-6">Pandas</span><span class="text-gold">/</span>
+                    <span class="px-6">NumPy</span><span class="text-gold">/</span>
+                    <span class="px-6">Python</span><span class="text-gold">/</span>
+                    <span class="px-6">Django</span><span class="text-gold">/</span>
+                    <span class="px-6">Django REST</span><span class="text-gold">/</span>
+                    <span class="px-6">Redis</span><span class="text-gold">/</span>
+                    <span class="px-6">MongoDB</span><span class="text-gold">/</span>
+                    <span class="px-6">MySQL</span><span class="text-gold">/</span>
+                    <span class="px-6">Celery</span><span class="text-gold">/</span>
+                    <span class="px-6">JWT</span><span class="text-gold">/</span>
+                    <span class="px-6">OAuth</span><span class="text-gold">/</span>
+                    <span class="px-6">Stripe</span><span class="text-gold">/</span>
+                    <span class="px-6">Pandas</span><span class="text-gold">/</span>
+                    <span class="px-6">NumPy</span><span class="text-gold">/</span>
+                </div>
+            </div>
+        </div>
+
+        <section id="about" class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+            <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold">01 — About</p>
+            <div class="mt-6 grid lg:grid-cols-12 gap-10">
+                <h2 class="lg:col-span-5 font-serif text-4xl sm:text-5xl leading-[1.05]">Backend developer, shaped by a fintech background.</h2>
+                <div class="lg:col-span-7 space-y-5 text-mute text-lg leading-relaxed">
+                    <p>I’m Pranali Doiphode. Day to day I work in Python and Django: request handlers, ORM paths, caches, and the third-party systems a product depends on.</p>
+                    <p>FinTech is the industry those systems have lived in. At Codesis I have built the backends for live trading platforms — CK Capital, Equity Edge, Propel, Fortuna — including market-data feeds, order flows, and payments. That background is why I treat latency and failure paths as part of the design.</p>
+                </div>
+            </div>
+
+            <div class="mt-12 grid sm:grid-cols-3 border border-line">
+                <div class="p-6 border-b sm:border-b-0 sm:border-r border-line">
+                    <p class="font-mono text-[11px] tracking-[0.22em] uppercase text-gold">Role</p>
+                    <p class="mt-3 font-serif text-3xl">Backend developer</p>
+                    <p class="mt-2 text-sm text-mute">Python, Django, APIs, data.</p>
+                </div>
+                <div class="p-6 border-b sm:border-b-0 sm:border-r border-line">
+                    <p class="font-mono text-[11px] tracking-[0.22em] uppercase text-gold">Background</p>
+                    <p class="mt-3 font-serif text-3xl">FinTech</p>
+                    <p class="mt-2 text-sm text-mute">Trading platforms, payments, market data.</p>
+                </div>
+                <div class="p-6">
+                    <p class="font-mono text-[11px] tracking-[0.22em] uppercase text-gold">Now</p>
+                    <p class="mt-3 font-serif text-3xl">Codesis</p>
+                    <p class="mt-2 text-sm text-mute">Since Sept 2024, after a 2024 internship.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="stack" class="border-t border-line">
+            <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+                <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold">02 — Stack</p>
+                <div class="mt-6 max-w-xl">
+                    <h2 class="font-serif text-4xl sm:text-5xl leading-[1.05]">What I build with.</h2>
+                </div>
+
+                <div class="mt-12 border border-line bg-panel" data-tabs>
+                    <div class="flex items-center gap-2 px-4 py-2.5 border-b border-line">
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#c45c4a]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#e7c15a]"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-[#7dcea0]"></span>
+                        <span class="ml-1 font-mono text-[11px] text-mute">stack — portfolio</span>
+                    </div>
+                    <div class="grid md:grid-cols-[210px_1fr]">
+                        <div class="hidden md:block border-r border-line py-3">
+                            <p class="px-3 pb-2 font-mono text-[10px] tracking-[0.2em] uppercase text-mute">Explorer</p>
+                            <button type="button" class="tree-item is-active" data-tree="lang"><i class="fa-brands fa-python text-gold"></i> language.py</button>
+                            <button type="button" class="tree-item" data-tree="data"><i class="fa-solid fa-database text-[#c4b5fd]"></i> data.sql</button>
+                            <button type="button" class="tree-item" data-tree="api"><i class="fa-solid fa-braces text-gold"></i> apis.json</button>
+                            <button type="button" class="tree-item" data-tree="domain"><i class="fa-regular fa-file-lines text-[#c4b5fd]"></i> fintech.md</button>
+                        </div>
+                        <div class="min-w-0">
+                            <div class="flex gap-1 overflow-x-auto border-b border-line" role="tablist" aria-label="Technical stack">
+                                <button class="tab is-active font-mono" role="tab" id="tab-lang" aria-selected="true" aria-controls="panel-lang" data-tab="lang" data-status="Python">language.py</button>
+                                <button class="tab font-mono" role="tab" id="tab-data" aria-selected="false" aria-controls="panel-data" data-tab="data" data-status="SQL">data.sql</button>
+                                <button class="tab font-mono" role="tab" id="tab-api" aria-selected="false" aria-controls="panel-api" data-tab="api" data-status="JSON">apis.json</button>
+                                <button class="tab font-mono" role="tab" id="tab-domain" aria-selected="false" aria-controls="panel-domain" data-tab="domain" data-status="Markdown">fintech.md</button>
+                            </div>
+                            <div class="p-4 md:p-6 min-h-[220px]">
+                                <div role="tabpanel" id="panel-lang" data-panel="lang" aria-labelledby="tab-lang">
+                                    <div class="code-view" aria-hidden="true">
+                                        <pre class="gutter">1
+2
+3
+4
+5</pre>
+                                        <pre><span class="text-mute"># language.py</span>
+<span class="text-[#c4b5fd]">FRAMEWORK</span> = <span class="text-gold">"Django"</span>
+<span class="text-[#c4b5fd]">API</span> = <span class="text-gold">"Django REST Framework"</span>
+<span class="text-[#c4b5fd]">ORM</span> = <span class="text-gold">"Django ORM"</span>
+<span class="text-[#c4b5fd]">SHEETS</span> = (<span class="text-gold">"NumPy"</span>, <span class="text-gold">"Pandas"</span>)</pre>
+                                    </div>
+                                    <p class="mt-4 max-w-2xl text-mute leading-relaxed">Python, Django, Django REST Framework, Django ORM, and MVT. NumPy and Pandas when financial sheets need to become API-ready data.</p>
+                                </div>
+                                <div role="tabpanel" id="panel-data" data-panel="data" aria-labelledby="tab-data" hidden>
+                                    <div class="code-view" aria-hidden="true">
+                                        <pre class="gutter">1
+2
+3
+4</pre>
+                                        <pre><span class="text-mute">-- data.sql</span>
+<span class="text-[#c4b5fd]">CACHE</span>  redis
+<span class="text-[#c4b5fd]">STORE</span>  mysql, sqlite, mongodb
+<span class="text-gold">INDEX</span>  busy read paths</pre>
+                                    </div>
+                                    <p class="mt-4 max-w-2xl text-mute leading-relaxed">MongoDB, MySQL, SQLite, Redis caching, indexing, and query tuning for busy read paths.</p>
+                                </div>
+                                <div role="tabpanel" id="panel-api" data-panel="api" aria-labelledby="tab-api" hidden>
+                                    <div class="code-view" aria-hidden="true">
+                                        <pre class="gutter">1
+2
+3
+4
+5
+6</pre>
+                                        <pre>{
+  <span class="text-cream">"auth"</span>: [<span class="text-gold">"JWT"</span>, <span class="text-gold">"OAuth"</span>],
+  <span class="text-cream">"jobs"</span>: <span class="text-gold">"Celery"</span>,
+  <span class="text-cream">"client"</span>: <span class="text-gold">"Postman"</span>,
+  <span class="text-cream">"payments"</span>: <span class="text-gold">"Stripe"</span>
+}</pre>
+                                    </div>
+                                    <p class="mt-4 max-w-2xl text-mute leading-relaxed">REST design, JWT, OAuth, Celery, Postman, and payment flows with Stripe.</p>
+                                </div>
+                                <div role="tabpanel" id="panel-domain" data-panel="domain" aria-labelledby="tab-domain" hidden>
+                                    <div class="code-view" aria-hidden="true">
+                                        <pre class="gutter">1
+2
+3</pre>
+                                        <pre><span class="text-gold"># Domain</span>
+TradeLocker · Dxtrader
+Orders, market data, payments.</pre>
+                                    </div>
+                                    <p class="mt-4 max-w-2xl text-mute leading-relaxed">TradeLocker and Dxtrader integrations, live order and market-data workflows. The industry those backends were built for.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between gap-3 px-4 py-1.5 border-t border-line font-mono text-[10px] tracking-wide text-mute">
+                                <span data-status-label>Python</span>
+                                <span>UTF-8 · LF</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="border-t border-line">
+            <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+                <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold">03 — Experience</p>
+                <h2 class="mt-6 font-serif text-4xl sm:text-5xl leading-[1.05] max-w-2xl">Backend roles. The products happened to move money.</h2>
+
+                <div class="mt-12 border border-line bg-panel" data-tabs>
+                    <div class="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-line">
+                        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-mute">Source control</span>
+                        <span class="font-mono text-[11px] text-gold">main</span>
+                    </div>
+                    <div class="flex gap-1 overflow-x-auto border-b border-line" role="tablist" aria-label="Experience">
+                        <button class="tab is-active" role="tab" id="tab-now" aria-selected="true" aria-controls="panel-now" data-tab="now">Codesis · now</button>
+                        <button class="tab" role="tab" id="tab-intern" aria-selected="false" aria-controls="panel-intern" data-tab="intern">Codesis · intern</button>
+                    </div>
+                    <div class="p-6 md:p-8">
+                        <article role="tabpanel" id="panel-now" data-panel="now" aria-labelledby="tab-now">
+                            <div class="flex flex-wrap items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="font-serif text-3xl">Python-Django Developer</h3>
+                                    <p class="mt-1 text-gold">Codesis Technologies</p>
+                                </div>
+                                <p class="font-mono text-xs tracking-wide text-mute border border-line px-3 py-1">Sept 2024 — Present</p>
+                            </div>
+                            <ul class="mt-6 space-y-3 text-sm text-mute leading-relaxed">
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Develop and tune backend APIs for live trading platforms, including CK Capital, Equity Edge, and Propel.</span></li>
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Integrate TradeLocker and Dxtrader so real-time market data and order execution run through the service.</span></li>
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Add Redis caching and improve Django ORM access patterns for high-volume transactions.</span></li>
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Use NumPy and Pandas to turn Excel-based financial data into something the trading workflows can use.</span></li>
+                            </ul>
+                        </article>
+                        <article role="tabpanel" id="panel-intern" data-panel="intern" aria-labelledby="tab-intern" hidden>
+                            <div class="flex flex-wrap items-start justify-between gap-3">
+                                <div>
+                                    <h3 class="font-serif text-3xl">Backend Developer Intern</h3>
+                                    <p class="mt-1 text-gold">Codesis Technologies</p>
+                                </div>
+                                <p class="font-mono text-xs tracking-wide text-mute border border-line px-3 py-1">Feb 2024 — July 2024</p>
+                            </div>
+                            <ul class="mt-6 space-y-3 text-sm text-mute leading-relaxed">
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Built REST endpoints for trading applications with Django REST Framework and verified them in Postman.</span></li>
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Optimized SQL queries and Django ORM lookups so reads held up during peak usage.</span></li>
+                                <li class="flex gap-3"><span class="text-gold mt-0.5">▸</span><span>Supported payment gateway integrations and traced backend defects in client implementations.</span></li>
+                            </ul>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="border-t border-line">
+            <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+                <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold">04 — Work</p>
+                <div class="mt-6 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                    <h2 class="font-serif text-4xl sm:text-5xl leading-[1.05]">Selected systems</h2>
+                    <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-sm text-gold hover:text-cream transition-colors">
+                        <i class="fa-brands fa-github"></i> All public code on GitHub <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                    </a>
+                </div>
+
+                <div class="mt-12 border border-line bg-panel" data-tabs>
+                    <div class="flex items-center justify-between gap-3 px-4 py-2.5 border-b border-line">
+                        <span class="font-mono text-[11px] tracking-[0.18em] uppercase text-mute">Collection · work</span>
+                        <span class="font-mono text-[11px] text-gold">4 saved</span>
+                    </div>
+                    <div class="grid md:grid-cols-[250px_1fr]">
+                        <div class="flex flex-col divide-y divide-line border-b md:border-b-0 md:border-r border-line" role="tablist" aria-label="Selected work">
+                            <button class="req is-active" role="tab" id="tab-trade" aria-selected="true" aria-controls="panel-trade" data-tab="trade"><span class="verb">GET</span> /trading</button>
+                            <button class="req" role="tab" id="tab-ecomm" aria-selected="false" aria-controls="panel-ecomm" data-tab="ecomm"><span class="verb">GET</span> /ecomm</button>
+                            <button class="req" role="tab" id="tab-tourism" aria-selected="false" aria-controls="panel-tourism" data-tab="tourism"><span class="verb">GET</span> /tourism</button>
+                            <button class="req" role="tab" id="tab-py" aria-selected="false" aria-controls="panel-py" data-tab="py"><span class="verb">GET</span> /python-apps</button>
+                        </div>
+                        <div class="p-6 md:p-8 min-h-[240px]">
+                        <article role="tabpanel" id="panel-trade" data-panel="trade" aria-labelledby="tab-trade">
+                            <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-gold">Professional · FinTech domain</p>
+                            <h3 class="mt-4 font-serif text-4xl">Live trading platforms</h3>
+                            <p class="mt-4 max-w-2xl text-mute leading-relaxed">Backend work across Equity Edge, Fortuna, CK Capital, and Propel: live strategy execution, real-time data feeds, and payment gateways. This is the fintech background, built as backend engineering.</p>
+                            <div class="mt-8 flex flex-wrap gap-2 font-mono text-[11px] text-cream/80">
+                                <span class="border border-line px-2.5 py-1">Python</span>
+                                <span class="border border-line px-2.5 py-1">Django</span>
+                                <span class="border border-line px-2.5 py-1">Redis</span>
+                                <span class="border border-line px-2.5 py-1">REST</span>
+                            </div>
+                        </article>
+                        <article role="tabpanel" id="panel-ecomm" data-panel="ecomm" aria-labelledby="tab-ecomm" hidden>
+                            <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-gold">Public</p>
+                            <h3 class="mt-4 font-serif text-4xl">E-commerce engine</h3>
+                            <p class="mt-4 max-w-2xl text-mute leading-relaxed">A Django shop: authentication, inventory, orders, and checkout. The same backend muscles, outside the trading desk.</p>
+                            <a href="https://github.com/Pranalidoiphode/Ecomm" target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex items-center gap-2 text-sm text-gold hover:text-cream">
+                                <i class="fa-brands fa-github"></i> Pranalidoiphode/Ecomm <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                            </a>
+                        </article>
+                        <article role="tabpanel" id="panel-tourism" data-panel="tourism" aria-labelledby="tab-tourism" hidden>
+                            <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-gold">Public</p>
+                            <h3 class="mt-4 font-serif text-4xl">Tourism website</h3>
+                            <p class="mt-4 max-w-2xl text-mute leading-relaxed">A public HTML build for a tourism experience, separate from the API work.</p>
+                            <a href="https://github.com/Pranalidoiphode/Tourism-Website" target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex items-center gap-2 text-sm text-gold hover:text-cream">
+                                <i class="fa-brands fa-github"></i> Tourism-Website <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                            </a>
+                        </article>
+                        <article role="tabpanel" id="panel-py" data-panel="py" aria-labelledby="tab-py" hidden>
+                            <p class="font-mono text-[11px] tracking-[0.18em] uppercase text-gold">Public · Python</p>
+                            <h3 class="mt-4 font-serif text-4xl">Python apps</h3>
+                            <p class="mt-4 max-w-2xl text-mute leading-relaxed">Smaller Python systems — hotel, ATM, library, contacts — the early practice that sits under the Django work.</p>
+                            <a href="https://github.com/Pranalidoiphode/Pythonapps" target="_blank" rel="noopener noreferrer" class="mt-8 inline-flex items-center gap-2 text-sm text-gold hover:text-cream">
+                                <i class="fa-brands fa-github"></i> Pranalidoiphode/Pythonapps <i class="fa-solid fa-arrow-up-right text-[10px]"></i>
+                            </a>
+                        </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="border-t border-line">
+            <div class="max-w-6xl mx-auto px-5 py-20 md:py-28">
+                <p class="font-mono text-[11px] tracking-[0.28em] uppercase text-gold">05 — Contact</p>
+                <h2 class="mt-6 font-serif text-5xl sm:text-7xl leading-[0.95]">Let’s talk<br><span class="italic grad-text">backends.</span></h2>
+                <p class="mt-6 max-w-xl text-mute text-lg">If you want someone who already knows what fintech systems feel like from the inside, and whose actual job is building them, start here.</p>
+
+                <div class="mt-12 border border-line bg-panel">
+                    <div class="flex items-center gap-2 px-4 py-3 border-b border-line">
+                        <span class="verb verb-post">POST</span>
+                        <span class="url-bar">/contact</span>
+                    </div>
+                <div class="grid sm:grid-cols-2">
+                    <a href="mailto:doiphode.pranali26@gmail.com" class="p-6 border-b sm:border-b-0 sm:border-r border-line hover:bg-ink transition-colors group">
+                        <i class="fa-solid fa-envelope text-gold"></i>
+                        <p class="mt-4 font-mono text-[11px] tracking-[0.18em] uppercase text-mute">Email</p>
+                        <p class="mt-2 text-lg group-hover:text-gold transition-colors break-all">doiphode.pranali26@gmail.com</p>
+                    </a>
+                    <a href="tel:+918655546359" class="p-6 border-b sm:border-b border-line sm:border-r-0 hover:bg-ink transition-colors group">
+                        <i class="fa-solid fa-phone text-gold"></i>
+                        <p class="mt-4 font-mono text-[11px] tracking-[0.18em] uppercase text-mute">Phone</p>
+                        <p class="mt-2 text-lg group-hover:text-gold transition-colors">+91 8655546359</p>
+                    </a>
+                    <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="p-6 border-b sm:border-b-0 sm:border-r sm:border-t border-line hover:bg-ink transition-colors group">
+                        <i class="fa-brands fa-github text-gold"></i>
+                        <p class="mt-4 font-mono text-[11px] tracking-[0.18em] uppercase text-mute">GitHub</p>
+                        <p class="mt-2 text-lg group-hover:text-gold transition-colors">github.com/Pranalidoiphode</p>
+                    </a>
+                    <a href="https://linkedin.com/in/pranali-doiphode" target="_blank" rel="noopener noreferrer" class="p-6 sm:border-t border-line hover:bg-ink transition-colors group">
+                        <i class="fa-brands fa-linkedin text-gold"></i>
+                        <p class="mt-4 font-mono text-[11px] tracking-[0.18em] uppercase text-mute">LinkedIn</p>
+                        <p class="mt-2 text-lg group-hover:text-gold transition-colors">pranali-doiphode</p>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t border-line">
+        <div class="max-w-6xl mx-auto px-5 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-sm text-mute">
+            <p>© 2026 Pranali Doiphode</p>
+            <a href="https://github.com/Pranalidoiphode" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 hover:text-gold transition-colors">
+                <span class="pulse-dot w-1.5 h-1.5 rounded-full bg-gold inline-block"></span>
+                github.com/Pranalidoiphode
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileNav = document.getElementById('mobileNav');
+        const menuIcon = document.getElementById('menuIcon');
+
+        function setMenu(open) {
+            mobileNav.classList.toggle('hidden', !open);
+            menuBtn.setAttribute('aria-expanded', String(open));
+            menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+            menuIcon.className = open ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+        }
+
+        menuBtn.addEventListener('click', () => {
+            setMenu(mobileNav.classList.contains('hidden'));
+        });
+
+        mobileNav.querySelectorAll('a').forEach((link) => {
+            link.addEventListener('click', () => setMenu(false));
+        });
+
+        document.querySelectorAll('[data-tabs]').forEach((group) => {
+            const tabs = [...group.querySelectorAll('[role="tab"]')];
+            const panels = [...group.querySelectorAll('[role="tabpanel"]')];
+
+            function activate(tab) {
+                const id = tab.dataset.tab;
+                tabs.forEach((item) => {
+                    const on = item === tab;
+                    item.classList.toggle('is-active', on);
+                    item.setAttribute('aria-selected', String(on));
+                    item.tabIndex = on ? 0 : -1;
+                });
+                panels.forEach((panel) => {
+                    panel.hidden = panel.dataset.panel !== id;
+                });
+                group.querySelectorAll('[data-tree]').forEach((item) => {
+                    item.classList.toggle('is-active', item.dataset.tree === id);
+                });
+                const status = group.querySelector('[data-status-label]');
+                if (status && tab.dataset.status) status.textContent = tab.dataset.status;
+            }
+
+            tabs.forEach((tab, index) => {
+                tab.tabIndex = index === 0 ? 0 : -1;
+                tab.addEventListener('click', () => activate(tab));
+                tab.addEventListener('keydown', (event) => {
+                    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+                    event.preventDefault();
+                    const next = event.key === 'ArrowRight'
+                        ? tabs[(index + 1) % tabs.length]
+                        : tabs[(index - 1 + tabs.length) % tabs.length];
+                    activate(next);
+                    next.focus();
+                });
+            });
+
+            group.querySelectorAll('[data-tree]').forEach((item) => {
+                item.addEventListener('click', () => {
+                    const tab = tabs.find((entry) => entry.dataset.tab === item.dataset.tree);
+                    if (tab) activate(tab);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
